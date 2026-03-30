@@ -17,7 +17,6 @@ public class CitaMedicaController {
     private final List<CitaMedica> citas = new ArrayList<>();
 
     public CitaMedicaController() {
-        // 8 datos mínimos en memoria para el "Completamente Logrado"
         citas.add(new CitaMedica(1, "Pedro Pascal", "Dr. House", "Medicina General", "2025-04-10 09:00", "Programada"));
         citas.add(new CitaMedica(2, "Camila Vergara", "Dra. Grey", "Cirugía", "2025-04-11 11:30", "Cancelada"));
         citas.add(new CitaMedica(3, "Roberto Sánchez", "Dr. Strange", "Neurología", "2025-04-12 15:00", "Programada"));
