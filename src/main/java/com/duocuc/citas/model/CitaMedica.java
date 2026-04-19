@@ -1,30 +1,93 @@
 package com.duocuc.citas.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.springframework.hateoas.RepresentationModel;
+
+
+@Entity
+@Table(name = "citas")
+@JsonPropertyOrder()
 public class CitaMedica {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @NotBlank
+    @Column(name = "paciente")
+    @JsonProperty("paciente")
     private String paciente;
+
+
+    @NotBlank
+    @Column(name = "doctor")
+    @JsonProperty("doctor")
     private String doctor;
+
+    @NotBlank
+    @Column(name = "especialidad")
+    @JsonProperty("especialidad")
     private String especialidad;
+
+    @NotBlank
+    @Column(name = "fechaHora")
+    @JsonProperty("fechaHora")
     private String fechaHora;
+
+    @NotBlank
+    @Column(name = "estado")
+    @JsonProperty("estado")
     private String estado;
 
-    public CitaMedica(int id, String paciente, String doctor, String especialidad, String fechaHora, String estado) {
-        //agregamos pequeña validación para que la petición cumpla con datos requeridos
-        if (id <= 0 || paciente == null || paciente.trim().isEmpty() || fechaHora == null) {
-            throw new IllegalArgumentException("Error: Datos de la cita médica no son válidos.");
-        }
-        this.id = id;
-        this.paciente = paciente;
-        this.doctor = doctor;
-        this.especialidad = especialidad;
-        this.fechaHora = fechaHora;
-        this.estado = estado;
+    public Long getId() {
+        return id;
     }
 
-    public int getId() { return id; }
-    public String getPaciente() { return paciente; }
-    public String getDoctor() { return doctor; }
-    public String getEspecialidad() { return especialidad; }
-    public String getFechaHora() { return fechaHora; }
-    public String getEstado() { return estado; }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(String paciente) {
+        this.paciente = paciente;
+    }
+
+    public String getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(String doctor) {
+        this.doctor = doctor;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
+    }
+
+    public String getFechaHora() {
+        return fechaHora;
+    }
+
+    public void setFechaHora(String fechaHora) {
+        this.fechaHora = fechaHora;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }
