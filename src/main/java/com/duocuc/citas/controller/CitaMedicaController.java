@@ -1,51 +1,64 @@
 package com.duocuc.citas.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 
 import com.duocuc.citas.model.CitaMedica;
 import com.duocuc.citas.service.CitasService;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
+import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
 @RequestMapping("/citas")
 @CrossOrigin(origins = "*")
 public class CitaMedicaController {
+
     @Autowired
     private CitasService citasService;
 
     @GetMapping
-    public List<CitaMedica> getAllCitas() {
-        return citasService.getAllCitas();
+    public ResponseEntity<List<CitaMedica>> getAllCitas() {
+        List<CitaMedica> citas = citasService.getAllCitas();
+        return ResponseEntity.ok(citas);
     }
 
     @GetMapping("/{id}")
-    public Optional<CitaMedica> getCitaById(@PathVariable Long id){
-        return citasService.getCitaById(id);
+    public ResponseEntity<CitaMedica> getCitaById(@PathVariable Long id) {
+        return citasService.getCitaById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
+
     @PostMapping
-    public CitaMedica createCita(@RequestBody CitaMedica citaMedica){
-        return citasService.createCita(citaMedica);
+    public ResponseEntity<CitaMedica> createCita(@Valid @RequestBody CitaMedica citaMedica) {
+        CitaMedica nuevaCita = citasService.createCita(citaMedica);
+        return new ResponseEntity<>(nuevaCita, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public CitaMedica upodateCita(@PathVariable Long id,@RequestBody CitaMedica citaMedica){
-        return citasService.updateCita(id, citaMedica);
+    public ResponseEntity<CitaMedica> updateCita(@PathVariable Long id, @Valid @RequestBody CitaMedica citaMedica) {
+        CitaMedica actualizada = citasService.updateCita(id, citaMedica);
+        if (actualizada != null) {
+            return ResponseEntity.ok(actualizada);
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCita(@PathVariable Long id){
-        citasService.deleteCita(id);
+    public ResponseEntity<Void> deleteCita(@PathVariable Long id) {
+        if (citasService.getCitaById(id).isPresent()) {
+            citasService.deleteCita(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 }

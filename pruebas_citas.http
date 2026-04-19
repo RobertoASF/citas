@@ -1,0 +1,43 @@
+### Obtener todas las citas (Requerimiento de consulta)
+GET http://localhost:8080/citas
+Accept: application/json
+
+### Crear una nueva cita (Validación de datos)
+POST http://localhost:8080/citas
+Content-Type: application/json
+
+{
+"paciente": "Juan Perez",
+"doctor": "Dra. Soto",
+"especialidad": "Pediatría",
+"fechaHora": "2026-05-20T10:00:00",
+"estado": "PENDIENTE"
+}
+
+### Crear una nueva cita (Validación de datos)
+POST http://localhost:8080/citas
+Content-Type: application/json
+
+{
+  "paciente": "Roberto Sanchez",
+  "doctor": "Dra. Housa",
+  "especialidad": "Psiquiatria",
+  "fechaHora": "2026-05-25T10:00:00",
+  "estado": "PENDIENTE"
+}
+
+
+### Actualizar una cita (Uso de ID y Put)
+PUT http://localhost:8080/citas/1
+Content-Type: application/json
+
+{
+"paciente": "Juan Perez",
+"doctor": "Dra. Soto",
+"especialidad": "Pediatría",
+"fechaHora": "2026-05-20T11:00:00",
+"estado": "COMPLETADA"
+}
+
+### Eliminar una cita
+DELETE http://localhost:8080/citas/1

@@ -20,6 +20,8 @@ target/
 *.ipr
 
 /target/
+pruebas_citas.http
+*.http
 
 ### NetBeans ###
 /nbproject/private/
