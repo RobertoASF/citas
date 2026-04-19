@@ -23,6 +23,9 @@ target/
 pruebas_citas.http
 *.http
 
+logs/
+*.log
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
