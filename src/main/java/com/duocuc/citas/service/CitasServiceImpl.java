@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.duocuc.citas.model.CitaMedica;
 import com.duocuc.citas.repository.CitasRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,10 @@ public class CitasServiceImpl implements CitasService{
     }
 
     @Override
+    public boolean verificarDisponibilidad(LocalDate fecha, String hora) {
+        return !citasRepository.existsByFechaAndHora(fecha, hora);}
+
+    @Override
     public CitaMedica updateCita(Long id, CitaMedica citaMedica){
         if(citasRepository.existsById(id)){
             citaMedica.setId(id);
@@ -44,4 +49,7 @@ public class CitasServiceImpl implements CitasService{
         citasRepository.deleteById(id);
     }
 
-}
+
+    }
+
+

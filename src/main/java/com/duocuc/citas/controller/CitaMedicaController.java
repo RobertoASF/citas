@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -80,4 +81,14 @@ public class CitaMedicaController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @GetMapping("/disponibilidad")
+    public ResponseEntity<Boolean> consultarDisponibilidad(
+            @RequestParam LocalDate fecha,
+            @RequestParam String hora) {
+        log.info("Consultando disponibilidad para fecha: {} y hora: {}", fecha, hora);
+        boolean disponible = citasService.verificarDisponibilidad(fecha, hora);
+        return ResponseEntity.ok(disponible);
+    }
+
 }

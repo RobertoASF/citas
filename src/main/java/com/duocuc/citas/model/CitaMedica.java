@@ -7,10 +7,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.springframework.hateoas.RepresentationModel;
 
+import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "CITAS")
-@JsonPropertyOrder({"id", "paciente", "doctor", "especialidad", "fecha_Hora", "estado"})
+@JsonPropertyOrder({"id", "paciente", "doctor", "especialidad", "fecha", "hora", "estado"})
 public class CitaMedica {
 
     @Id
@@ -35,10 +37,19 @@ public class CitaMedica {
     @JsonProperty("especialidad")
     private String especialidad;
 
-    @NotBlank(message = "La fecha y hora son obligatorias")
-    @Column(name = "FECHAHORA")
-    @JsonProperty("fechaHora")
-    private String fechaHora;
+
+    @NotNull(message = "La fecha es obligatoria")
+    @Column(name = "FECHA")
+    @JsonProperty("fecha")
+    private LocalDate fecha;
+
+    @NotBlank(message = "La hora es obligatoria")
+    @Column(name = "HORA")
+    @JsonProperty("hora")
+    private String hora;
+
+
+
 
     @NotBlank(message = "El estado es obligatorio")
     @Pattern(regexp = "PENDIENTE|COMPLETADA|CANCELADA", message = "Estado no válido") // aqui agregamos una validacion para controlar los datos que entrean
@@ -58,8 +69,11 @@ public class CitaMedica {
     public String getEspecialidad() { return especialidad; }
     public void setEspecialidad(String especialidad) { this.especialidad = especialidad; }
 
-    public String getFechaHora() { return fechaHora; }
-    public void setFechaHora(String fechaHora) { this.fechaHora = fechaHora; }
+    public LocalDate getFecha() { return fecha; }
+    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+
+    public String getHora() { return hora; }
+    public void setHora(String hora) { this.hora = hora; }
 
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
